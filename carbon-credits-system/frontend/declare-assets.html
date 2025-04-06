@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declaração de Ativos - CarbonoVerde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+        }
+        .progress-bar {
+            height: 6px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="bg-green-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-leaf text-2xl"></i>
+                <span class="text-xl font-bold">CarbonoVerde</span>
+            </div>
+            <div>
+                <a href="index.html" class="text-green-200 hover:text-white">
+                    <i class="fas fa-arrow-left mr-2"></i> Voltar
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-green-800">Declaração de Ativos Ambientais</h1>
+                <p class="text-gray-600">Preencha os dados do seu imóvel para cálculo de créditos de carbono</p>
+            </div>
+
+            <div class="px-6 py-4">
+                <div class="mb-6">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-green-800">Progresso</span>
+                        <span class="text-sm font-medium text-gray-500" id="step-counter">Passo 1 de 3</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="progress-bar bg-green-600 h-2.5 rounded-full" style="width: 33%"></div>
+                    </div>
+                </div>
+
+                <form id="asset-form">
+                    <!-- Step 1: Location Data -->
+                    <div class="form-step active" id="step-1">
+                        <h2 class="text-xl font-semibold mb-4 text-green-800">1. Localização do Imóvel</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="country" class="block mb-2 text-sm font-medium text-gray-700">País</label>
+                                <select id="country" name="country" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                                    <option value="">Selecione...</option>
+                                    <option value="BR">Brasil</option>
+                                    <option value="AR">Argentina</option>
+                                    <option value="CO">Colômbia</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="region" class="block mb-2 text-sm font-medium text-gray-700">Região</label>
+                                <input type="text" id="region" name="region" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            
+                            <div>
+                                <label for="state" class="block mb-2 text-sm font-medium text-gray-700">Estado/Província</label>
+                                <input type="text" id="state" name="state" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            
+                            <div>
+                                <label for="biome" class="block mb-2 text-sm font-medium text-gray-700">Bioma</label>
+                                <select id="biome" name="biome" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                                    <option value="">Selecione...</option>
+                                    <option value="amazonia">Amazônia</option>
+                                    <option value="cerrado">Cerrado</option>
+                                    <option value="mata_atlantica">Mata Atlântica</option>
+                                    <option value="caatinga">Caatinga</option>
+                                    <option value="pampa">Pampa</option>
+                                    <option value="pantanal">Pantanal</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-end">
+                            <button type="button" onclick="nextStep(1, 2)"
+                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                Próximo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Area Data -->
+                    <div class="form-step" id="step-2">
+                        <h2 class="text-xl font-semibold mb-4 text-green-800">2. Dados de Área</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="total-area" class="block mb-2 text-sm font-medium text-gray-700">Área Total do Imóvel (hectares)</label>
+                                <input type="number" id="total-area" name="total-area" min="0.1" step="0.1" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            
+                            <div>
+                                <label for="preserved-area" class="block mb-2 text-sm font-medium text-gray-700">Área com Floresta Preservada (hectares)</label>
+                                <input type="number" id="preserved-area" name="preserved-area" min="0" step="0.1" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="block mb-2 text-sm font-medium text-gray-700">Documentos Comprobatórios</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                    <div class="space-y-1 text-center">
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="documents" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none">
+                                                <span>Enviar arquivos</span>
+                                                <input id="documents" name="documents" type="file" multiple class="sr-only">
+                                            </label>
+                                            <p class="pl-1">ou arraste e solte</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">
+                                            PDF, JPG ou PNG (máx. 10MB cada)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-between">
+                            <button type="button" onclick="prevStep(2, 1)"
+                                class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                <i class="fas fa-arrow-left mr-2"></i> Voltar
+                            </button>
+                            <button type="button" onclick="nextStep(2, 3)"
+                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                Próximo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Review and Submit -->
+                    <div class="form-step" id="step-3">
+                        <h2 class="text-xl font-semibold mb-4 text-green-800">3. Revisão e Envio</h2>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                            <h3 class="font-medium text-green-800 mb-2">Resumo da Declaração</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">País:</p>
+                                    <p id="review-country" class="font-medium"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Região:</p>
+                                    <p id="review-region" class="font-medium"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Estado/Província:</p>
+                                    <p id="review-state" class="font-medium"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Bioma:</p>
+                                    <p id="review-biome" class="font-medium"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Área Total:</p>
+                                    <p id="review-total-area" class="font-medium"></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Área Preservada:</p>
+                                    <p id="review-preserved-area" class="font-medium"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="terms" name="terms" type="checkbox" required
+                                    class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="terms" class="font-medium text-gray-700">
+                                    Concordo com os <a href="#" class="text-green-600 hover:text-green-500">Termos de Serviço</a> e
+                                    <a href="#" class="text-green-600 hover:text-green-500">Política de Privacidade</a>
+                                </label>
+                                <p class="text-gray-500">Seus dados serão criptografados e armazenados com segurança.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-between">
+                            <button type="button" onclick="prevStep(3, 2)"
+                                class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                <i class="fas fa-arrow-left mr-2"></i> Voltar
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                <i class="fas fa-paper-plane mr-2"></i> Enviar Declaração
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-green-900 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 CarbonoVerde. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function nextStep(current, next) {
+            // Validate current step before proceeding
+            if (validateStep(current)) {
+                document.getElementById(`step-${current}`).classList.remove('active');
+                document.getElementById(`step-${next}`).classList.add('active');
+                updateProgress(next);
+                updateReview();
+            }
+        }
+
+        function prevStep(current, prev) {
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${prev}`).classList.add('active');
+            updateProgress(prev);
+        }
+
+        function updateProgress(step) {
+            const progress = (step / 3) * 100;
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.getElementById('step-counter').textContent = `Passo ${step} de 3`;
+        }
+
+        function validateStep(step) {
+            // Basic validation for each step
+            if (step === 1) {
+                const required = ['country', 'region', 'state', 'biome'];
+                return required.every(id => document.getElementById(id).value.trim() !== '');
+            }
+            if (step === 2) {
+                const totalArea = parseFloat(document.getElementById('total-area').value);
+                const preservedArea = parseFloat(document.getElementById('preserved-area').value);
+                
+                if (isNaN(totalArea) || totalArea <= 0) {
+                    alert('Área total deve ser maior que 0');
+                    return false;
+                }
+                if (isNaN(preservedArea) || preservedArea < 0) {
+                    alert('Área preservada não pode ser negativa');
+                    return false;
+                }
+                if (preservedArea > totalArea) {
+                    alert('Área preservada não pode ser maior que área total');
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        function updateReview() {
+            document.getElementById('review-country').textContent = 
+                document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
+            document.getElementById('review-region').textContent = document.getElementById('region').value;
+            document.getElementById('review-state').textContent = document.getElementById('state').value;
+            document.getElementById('review-biome').textContent = 
+                document.getElementById('biome').options[document.getElementById('biome').selectedIndex].text;
+            document.getElementById('review-total-area').textContent = 
+                document.getElementById('total-area').value + ' hectares';
+            document.getElementById('review-preserved-area').textContent = 
+                document.getElementById('preserved-area').value + ' hectares';
+        }
+
+        document.getElementById('asset-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would normally send the form data to the server
+            alert('Declaração enviada com sucesso! Nossa equipe entrará em contato para a validação dos documentos.');
+            // window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>
