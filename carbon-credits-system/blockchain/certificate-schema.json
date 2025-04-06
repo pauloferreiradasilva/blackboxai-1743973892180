@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Carbon Credit Certificate",
+  "description": "Schema for blockchain-based carbon credit certificates",
+  "type": "object",
+  "properties": {
+    "certificateId": {
+      "type": "string",
+      "description": "Unique certificate identifier"
+    },
+    "assetId": {
+      "type": "string",
+      "description": "Reference to the environmental asset"
+    },
+    "issuer": {
+      "type": "string",
+      "description": "Certifier organization ID"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Current owner of the credits"
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of issuance"
+    },
+    "credits": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of carbon credits issued"
+    },
+    "retired": {
+      "type": "boolean",
+      "description": "Whether credits have been retired"
+    },
+    "retiredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of retirement (if applicable)"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "country": { "type": "string" },
+        "region": { "type": "string" },
+        "biome": { "type": "string" },
+        "area": { "type": "number" },
+        "documents": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["country", "region", "biome", "area"]
+    },
+    "transactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "txHash": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "credits": { "type": "integer" }
+        }
+      }
+    }
+  },
+  "required": [
+    "certificateId",
+    "assetId",
+    "issuer",
+    "issuedAt",
+    "credits",
+    "retired",
+    "metadata"
+  ]
+}
